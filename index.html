@@ -1,25 +1,161 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alexandria E. Martin — Producer / Filmmaker</title>
-<link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>West Window Picture House</title>
+<meta name="description" content="West Window Picture House, a production company founded by producer and filmmaker Alexandria E. Martin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..600&display=swap" rel="stylesheet">
+<style>
+  /* ====== EDIT THESE ====== */
+  :root{
+    --glow: #f9ccf6;          /* color of the giant name (soft pink like the reference) */
+    --ink: #0d0d0d;           /* nav text */
+    --paper: #ffffff;         /* nav label background */
+  }
+  /* ======================== */
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{background:#111;color:var(--ink)}
+  body{font-family:"Archivo","Arial Narrow","Helvetica Neue Condensed",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+
+  /* ---------- background ---------- */
+  .bg{position:fixed;inset:0;z-index:0;overflow:hidden}
+  .bg video,.bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s ease}
+  .bg .ready{opacity:1}
+  /* fallback “window light” shown until you add hero.mp4 / hero.jpg */
+  .fallback{position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(90deg,rgba(255,255,255,.0) 0 7vw,rgba(255,255,255,.07) 7vw 7.6vw,rgba(0,0,0,.05) 7.6vw 8vw),
+      radial-gradient(60% 70% at 52% 38%,#f3edd2 0%,#c9cf9a 38%,#7d8d4e 70%,#38401f 100%);
+    animation:breathe 14s ease-in-out infinite alternate}
+  @keyframes breathe{from{filter:brightness(.95) saturate(.9)}to{filter:brightness(1.08) saturate(1.05)}}
+  .grain{position:absolute;inset:-50%;pointer-events:none;opacity:.12;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    animation:grain .8s steps(4) infinite}
+  @keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(0,0)}}
+  .shade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.08),rgba(0,0,0,0) 30%,rgba(0,0,0,.18))}
+
+  /* ---------- nav ---------- */
+  nav{position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:5;display:flex;flex-wrap:wrap;justify-content:center;gap:0;white-space:nowrap;width:max-content;max-width:100%}
+  nav a,nav button{font:inherit;font-stretch:62%;font-weight:400;font-size:clamp(15px,1.85vw,23px);line-height:1;letter-spacing:.01em;
+    text-transform:uppercase;color:var(--ink);background:var(--paper);border:0;padding:2px .38em 3px;cursor:pointer;text-decoration:none;
+    opacity:0;animation:fadeIn .9s ease forwards}
+  nav a:hover,nav button:hover,nav .on{background:var(--ink);color:var(--paper)}
+  nav > *:nth-child(1){animation-delay:.2s}nav > *:nth-child(2){animation-delay:.35s}
+  nav > *:nth-child(3){animation-delay:.5s}nav > *:nth-child(4){animation-delay:.65s}nav > *:nth-child(5){animation-delay:.8s}
+  @keyframes fadeIn{to{opacity:1}}
+
+  /* ---------- giant name ---------- */
+  .hero{position:relative;height:100vh;height:100svh;overflow:hidden;z-index:2}
+  .name{position:absolute;left:0;right:0;bottom:-.04em;z-index:3;pointer-events:none;
+    color:var(--glow);font-stretch:62%;font-weight:400;text-transform:uppercase;line-height:.78;
+    filter:drop-shadow(0 0 6px var(--glow)) drop-shadow(0 0 18px color-mix(in srgb,var(--glow) 50%,transparent));
+    padding:0 1.2vw}
+  .line{display:block;width:max-content;margin:0 auto;white-space:nowrap}
+  .line .ch{display:inline-block;opacity:0;filter:blur(18px);transform:translateY(.12em);
+    animation:land 1.8s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes land{to{opacity:.92;filter:blur(var(--b,.01em));transform:none}}
+  .ch.sp{width:.22em}
+
+  /* ---------- company section (scroll down) ---------- */
+  .about{position:relative;z-index:2;min-height:100vh;display:grid;place-items:center;padding:18vh 6vw;
+    background:rgba(255,255,255,.16);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+  .about .copy{max-width:780px;text-align:center;color:#fff;text-shadow:0 1px 18px rgba(0,0,0,.35)}
+  .about h2{font-stretch:62%;font-weight:400;text-transform:uppercase;font-size:clamp(34px,6vw,84px);line-height:.9;
+    color:var(--glow);filter:drop-shadow(0 0 6px var(--glow));margin-bottom:.35em}
+  .about .tag{font-stretch:62%;text-transform:uppercase;letter-spacing:.08em;font-size:clamp(13px,1.3vw,17px);margin-bottom:2.2em}
+  .about p{font-stretch:75%;font-size:clamp(18px,2vw,27px);line-height:1.3;margin-bottom:1em}
+  .about a{color:#fff}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity 1.2s ease,transform 1.2s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01s!important;animation-delay:0s!important}
+  }
+</style>
 </head>
-<body class="home">
-<div class="frame">
-<div class="home-content">
-<h1>Alexandria E. Martin</h1>
-<p class="subtitle">Producer/ Filmmaker</p>
-<nav class="home-nav">
-<a href="work.html">Work</a>
-<a href="events.html">Events</a>
-<a href="west-window-picture-house.html">West Window Picture House</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-</nav>
-</div>
-</div>
-<script src="script.js"></script>
+<body>
+
+  <!-- BACKGROUND: drop hero.mp4 (and optionally hero.jpg as a still/poster) in the same folder -->
+  <div class="bg" aria-hidden="true">
+    <div class="fallback"></div>
+    <img id="still" src="hero.jpg" alt="" onload="this.classList.add('ready')" onerror="this.remove()">
+    <video id="reel" autoplay muted loop playsinline preload="auto"
+           oncanplay="this.classList.add('ready')" onerror="this.remove()">
+      <source src="hero.mp4" type="video/mp4" onerror="document.getElementById('reel').remove()">
+    </video>
+    <div class="shade"></div>
+    <div class="grain"></div>
+  </div>
+
+  <nav>
+    <a href="work.html">Work</a>
+    <a href="events.html">Events</a>
+    <a href="#wwph">West Window Picture House</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <header class="hero">
+    <h1 class="name" aria-label="West Window Picture House"></h1>
+  </header>
+
+  <section class="about" id="wwph">
+    <div class="copy reveal">
+      <h2>West Window<br>Picture House</h2>
+      <div class="tag">Share Stories &middot; Open Worlds</div>
+      <p>West Window Picture House is a production company founded by producer and filmmaker Alexandria E. Martin.</p>
+      <p>A window is more than just a pane of glass; it&rsquo;s a portal into one&rsquo;s perspective, reality, and life. West Window Picture House is a home for stories that provide the lens to connect us all.</p>
+    </div>
+  </section>
+
+<script>
+  // ---- split the name into letters & fit each line to the screen width ----
+  // wide screens: 2 lines; phones (portrait): 4 lines
+  const nameEl=document.querySelector('.name');
+  const words=innerWidth/innerHeight<0.8?['West','Window','Picture','House']:['West Window','Picture House'];
+  nameEl.innerHTML=words.map(w=>'<span class="line" data-text="'+w+'"></span>').join('');
+  const lines=[...document.querySelectorAll('.line')];
+  let i=0;
+  lines.forEach(l=>{
+    l.innerHTML=[...l.dataset.text].map(c=>{
+      const d=(i++*0.07+0.5).toFixed(2), b=(0.006+Math.random()*0.018).toFixed(3);
+      return c===' '?'<span class="ch sp" style="animation-delay:'+d+'s">&nbsp;</span>'
+                    :'<span class="ch" style="animation-delay:'+d+'s;--b:'+b+'em">'+c+'</span>';
+    }).join('');
+  });
+  function fit(){
+    const w=window.innerWidth*0.976;
+    lines.forEach(l=>{
+      l.style.fontSize='100px';
+      const r=l.scrollWidth;
+      l.style.fontSize=(100*w/r)+'px';
+    });
+  }
+  (document.fonts?document.fonts.ready:Promise.resolve()).then(fit);
+  addEventListener('resize',fit); fit();
+
+  // ---- slow "breathing" blur on random letters, like light through glass ----
+  const chars=[...document.querySelectorAll('.ch:not(.sp)')];
+  setTimeout(()=>{
+    chars.forEach(c=>{c.style.animation='none';c.style.filter='blur('+getComputedStyle(c).getPropertyValue('--b')+')';c.style.opacity='.92';c.style.transition='filter 2.4s ease, opacity 2.4s ease';c.style.transform='none'});
+    setInterval(()=>{
+      const c=chars[Math.floor(Math.random()*chars.length)];
+      c.style.filter='blur('+(0.004+Math.random()*0.03).toFixed(3)+'em)';
+      c.style.opacity=(0.7+Math.random()*0.3).toFixed(2);
+    },260);
+  },3200);
+
+  // ---- fade the company section in as you scroll to it ----
+  const rv=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2});
+    rv.forEach(el=>io.observe(el));
+  } else rv.forEach(el=>el.classList.add('in'));
+</script>
 </body>
 </html>
